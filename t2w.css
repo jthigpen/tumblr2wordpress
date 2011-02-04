@@ -38,3 +38,6 @@ fieldset ul {
 p.donate {
     font-size: 80%;
 }
+.text-label {
+display: block;
+}

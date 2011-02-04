@@ -46,6 +46,8 @@ if(empty($username)): ?>
 		    <label for="tumblr-user">Tumblr Blog URL (not your email address or custom domain):</label>
 		    <input type="text" id="tumblr-user" name="username" size="40">
 		    <samp>.tumblr.com</samp>
+		    <label class='text-label' for="tumblr-start-id">Start at Post</label>
+		    <input type="text" id="tumblr-start-id" name="tumblr-start-id" size="40" value='0'>
 		</fieldset>
 		<fieldset>
 		    <legend>Exported Content Format</legend>
@@ -174,7 +176,7 @@ endif;
   # Didn't output the form. So, process the input:
 
 $type = $_REQUEST["type"];
-$i = 0;
+$i = (int) $_REQUEST["tumblr-start-id"];
 
 $posts = array();
 $feed = '';
