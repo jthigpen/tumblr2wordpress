@@ -48,6 +48,8 @@ if(empty($username)): ?>
 		    <samp>.tumblr.com</samp>
 		    <label class='text-label' for="tumblr-start-id">Start at Post</label>
 		    <input type="text" id="tumblr-start-id" name="tumblr-start-id" size="40" value='0'>
+		    <label class='text-label' for="tumblr-stop-id">Stop at Post (0 for None)</label>
+		    <input type="text" id="tumblr-stop-id" name="tumblr-stop-id" size="40" value='0'>
 		</fieldset>
 		<fieldset>
 		    <legend>Exported Content Format</legend>
@@ -177,6 +179,11 @@ endif;
 
 $type = $_REQUEST["type"];
 $i = (int) $_REQUEST["tumblr-start-id"];
+$end_post = (int) $_REQUEST["tumblr-start-id"];
+
+if ($end_post === 0) {
+  $end_post = 2000000000; # a super big number cuz php doesn't have int.maxValue
+}
 
 $posts = array();
 $feed = '';
@@ -292,7 +299,7 @@ try {
     	$feed = new SimpleXMLElement($data);
     	$posts = array_merge($posts, $feed->xpath('posts//post'));
     	$i = (int)$feed->posts->attributes()->start + 50;
-    } while($i <= (int)$feed->posts["total"]);
+    } while($i <= (int)$feed->posts["total"] && ($i < $end_post));
 }
 catch(Exception $e) {
     header("500", true, 500);
